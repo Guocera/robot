@@ -1,6 +1,6 @@
 class Robot
   attr_reader :attack_power, :position, :items
-  attr_accessor :health, :equipped_weapon
+  attr_accessor :health, :equipped_weapon, :shield_points
 
   class RobotAlreadyDeadError < StandardError;  end
   class UnattackableEnemyError < StandardError;  end
@@ -10,6 +10,7 @@ class Robot
     @attack_power = 5
     @position =[0,0]
     @items = []
+    @shield_points = 50
   end
 
   def items_weight
@@ -46,8 +47,18 @@ class Robot
   end
 
   def wound(dmg)
-    self.health -= dmg
-    self.health = 0 if health < 0
+    if shield_points > 0
+      if dmg <= shield_points
+        self.shield_points -= dmg
+      else
+        self.health -= dmg - shield_points
+        self.health = 0 if health < 0
+        self.shield_points = 0
+      end
+    else
+      self.health -= dmg
+      self.health = 0 if health < 0
+    end
   end
 
   def within_range(enemy, range)
