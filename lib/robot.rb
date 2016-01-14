@@ -1,14 +1,20 @@
 class Robot
-  attr_accessor :health_points, :attack_power, :position
+  attr_accessor :health, :attack_power, :position
 
   class RobotAlreadyDeadError < StandardError;  end
   class UnattackableEnemyError < StandardError;  end
 
   def initialize
-    @health_points = 100
+    @health = 100
     @attack_power = 10
     @position =[0,0]
   end
+
+  def pick_up(item)
+    item.feed(self) if health <= 80
+  end
+
+
 
   def move_up
     position[1] += 1
@@ -27,7 +33,7 @@ class Robot
   end
 
   def wound(dmg)
-    self.health_points -= dmg
+    self.health -= dmg
   end
 
   def within_range(enemy)
@@ -47,9 +53,9 @@ class Robot
   end
 
   def heal(robot)
-    raise RobotAlreadyDeadError, 'Robot is dead.' if self.health_points <= 0
-    raise RobotAlreadyDeadError, 'Already at max health.' if robot.health_points <= 0
-    robot.health_points += 10
+    raise RobotAlreadyDeadError, 'Robot is dead.' if self.health <= 0
+    raise RobotAlreadyDeadError, 'Already at max health.' if robot.health <= 0
+    robot.health += 10
   rescue RobotAlreadyDeadError => e
     # puts e.message
   end
