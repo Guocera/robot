@@ -22,6 +22,8 @@ class Robot
       case item
       when BoxOfBolts
         health <= 80 ? item.feed(self) : items << item
+      when Battery
+        shield_points <= 40 ? item.recharge(self) : items << item
       when Weapon
         equipped_weapon == nil ? self.equipped_weapon = item : items << item
       when Item
