@@ -8,6 +8,9 @@ class Robot
   @@list = []
   @@robot_id = 0
 
+  def self.in_position(x, y)
+    @@list.select { |robot| (robot.position[0] == x && robot.position[1] == y )}
+  end
 
   def self.list
     @@list
