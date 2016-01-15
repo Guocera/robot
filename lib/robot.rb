@@ -27,6 +27,31 @@ class Robot
     @@list << self
   end
 
+  def scan
+    neighbors = []
+    x = position[0]
+    y = position[1]
+    robots_found = Robot.in_position(x, y)
+    neighbors << robots_found unless robots_found.empty?
+    robots_found = Robot.in_position(x, y + 1)
+    neighbors << robots_found unless robots_found.empty?
+    robots_found = Robot.in_position(x + 1, y + 1)
+    neighbors << robots_found unless robots_found.empty?
+    robots_found = Robot.in_position(x + 1, y)
+    neighbors << robots_found unless robots_found.empty?
+    robots_found = Robot.in_position(x + 1, y - 1)
+    neighbors << robots_found unless robots_found.empty?
+    robots_found = Robot.in_position(x, y - 1)
+    neighbors << robots_found unless robots_found.empty?
+    robots_found = Robot.in_position(x - 1, y - 1)
+    neighbors << robots_found unless robots_found.empty?
+    robots_found = Robot.in_position(x - 1, y)
+    neighbors << robots_found unless robots_found.empty?
+    robots_found = Robot.in_position(x - 1, y + 1)
+    neighbors << robots_found unless robots_found.empty?
+    neighbors.flatten
+  end
+
   def items_weight
     @items_weight = items.inject(0) { |total_weight,item| total_weight += item.weight }
   end
