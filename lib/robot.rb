@@ -5,12 +5,23 @@ class Robot
   class RobotAlreadyDeadError < StandardError;  end
   class UnattackableEnemyError < StandardError;  end
 
+  @@list = []
+  @@robot_id = 0
+
+
+  def self.list
+    @@list
+  end
+
   def initialize
     @health = 100
     @attack_power = 5
     @position =[0,0]
     @items = []
     @shield_points = 50
+    @id = @@robot_id
+    @@robot_id += 1
+    @@list << self
   end
 
   def items_weight
